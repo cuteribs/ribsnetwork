@@ -5,10 +5,4 @@
 FROM golang:alpine
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-RUN apk update && \
-    apk upgrade && \
-    apk add git
-
-RUN go get github.com/xtaci/kcptun/client && go get github.com/xtaci/kcptun/server
-
-RUN apk del git
+ADD https://github.com/xtaci/kcptun/releases/download/v20161207/kcptun-linux-amd64-20161207.tar.gz ./
