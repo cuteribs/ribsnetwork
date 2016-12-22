@@ -5,6 +5,8 @@
 FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
+WORKDIR /xware
+
 ADD ./xware.tar.gz /
 
 RUN chmod +x /xware/portal
