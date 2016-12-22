@@ -2,7 +2,7 @@
 # Dockerfile for kcptun
 #
 
-FROM golang:alpine
+FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 ARG KCP_VER=20161207

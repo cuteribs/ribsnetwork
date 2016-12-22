@@ -2,7 +2,7 @@
 # Dockerfile for shadowsocks-libev
 #
 
-FROM alpine
+FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 ARG SS_VER=2.5.6
