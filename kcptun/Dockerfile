@@ -5,4 +5,9 @@
 FROM golang:alpine
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-ADD https://github.com/xtaci/kcptun/releases/download/v20161207/kcptun-linux-amd64-20161207.tar.gz ./
+ARG KCP_VER=20161207
+ARG KCP_URL=https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-amd64-$KCP_VER.tar.gz
+
+RUN apk update && apk add curl \
+	&& curl -sSL $KCP_URL | tar xz \
+	&& apk del curl
