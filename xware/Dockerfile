@@ -16,4 +16,4 @@ RUN dpkg -i /xware/libc6_*.deb && \
 	rm /xware/*.deb && \
 	chmod +x /xware/portal
 
-RUN /xware/portal
+CMD /xware/portal
