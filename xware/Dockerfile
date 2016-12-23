@@ -16,4 +16,4 @@ RUN dpkg -i /xware/libc6_*.deb && \
 	rm /xware/*.deb && \
 	chmod +x /xware/portal
 
-CMD ["/xware/portal", "bash"]
+CMD ["/xware/portal > /xware/portal.log 2>&1", "tail -f /xware/portal.log"]
