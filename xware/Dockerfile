@@ -8,6 +8,7 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 WORKDIR /xware
 
 COPY ./*.deb /xware/
+COPY ./*.sh /xware/
 ADD ./xware.tar.bz /xware/
 
 RUN dpkg -i /xware/libc6_*.deb && \
