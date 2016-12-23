@@ -15,4 +15,6 @@ RUN dpkg -i /xware/libc6_*.deb && \
 	dpkg -i /xware/libc6-*.deb && \
 	dpkg -i /xware/lib32z1_*.deb && \
 	rm /xware/*.deb && \
-	chmod +x /xware/portal
+	chmod +x /xware/portal && \
+	chmod +x /xware/xware.sh
+	
