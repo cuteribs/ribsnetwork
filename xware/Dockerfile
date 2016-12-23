@@ -14,6 +14,4 @@ RUN dpkg -i /xware/libc6-i386_*.deb && \
 	dpkg -i /xware/lib32z1_*.deb && \
 	chmod +x /xware/portal
 
-RUN rm /xware/libc6-i386_*.deb && \
-	rm /xware/lib32z1_*.deb && \
-	rm -f /var/cache/*
+RUN rm /xware/*.deb
