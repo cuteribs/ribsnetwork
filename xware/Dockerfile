@@ -7,13 +7,11 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 
 WORKDIR /xware
 
-ADD ./xware.tar.bz /xware
-ADD ./*.deb /xware/
+COPY ./*.deb /xware/
+ADD ./xware.tar.bz /xware/
 
 RUN dpkg -i /xware/libc6_*.deb && \
 	dpkg -i /xware/libc6-*.deb && \
 	dpkg -i /xware/lib32z1_*.deb && \
 	rm /xware/*.deb && \
 	chmod +x /xware/portal
-
-CMD ["/xware/portal > /xware/portal.log 2>&1", "tail -f /xware/portal.log"]
