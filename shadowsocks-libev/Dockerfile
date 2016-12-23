@@ -10,4 +10,7 @@ WORKDIR /ss
 ADD ./pcre-8.38-r1.apk /ss/
 ADD ./*.bz /ss/
 
-RUN apk add /ss/pcre-8.38-r1.apk && rm /ss/pcre-8.38-r1.apk
+RUN apk add /ss/pcre-8.38-r1.apk
+
+RUN rm /ss/pcre-8.38-r1.apk && \
+	rm -f /var/cache/*
