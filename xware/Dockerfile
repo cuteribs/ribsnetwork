@@ -2,11 +2,14 @@
 # Dockerfile for xware
 #
 
-FROM alpine:3.4
+FROM debian:wheezy-slim
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 WORKDIR /xware
 
 ADD ./xware.tar.gz /
+ADD ./*.deb /xware/
 
-RUN chmod +x /xware/portal
+RUN dpkg -i /xware/libc6-i386_*.deb && \
+	dpkg -i /xware/lib32z1_*.deb && \
+	chmod +x /xware/portal
