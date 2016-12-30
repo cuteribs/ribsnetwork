@@ -1,0 +1,27 @@
+#这是一个用户名密码登录的配置。
+#是否自定义安装
+Custom_config_ocserv='y'
+#是否自签证书
+self_signed_ca='y'
+caname='ocvpn'
+ogname='ocvpn'
+coname='ocvpn'
+#tcp端口选择
+ocserv_tcpport_set='999'
+#是否只采用tcp模式 关闭udp端口
+only_tcp_port='n'
+#if only tcp,udp dose not work
+ocserv_udpport_set='1999'
+#是否开机自起
+ocserv_boot_start='y'
+#证书登录，否则用户名密码登录
+ca_login='n'
+#安装版本
+oc_version='0.10.8'
+#是否保存本配置文件
+save_user_vars='y'
+#初始用户名密码
+username='test'
+password='test'
+#域名
+fqdnname='oc.abc.com'
