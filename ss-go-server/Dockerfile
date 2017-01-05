@@ -5,10 +5,9 @@
 FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-WORKDIR /ss
+WORKDIR /app
 
-ADD ./*.bz /ss/
+ADD ./*.bz /app/
 
-RUN chmod +x /ss/shadowsocks-server-linux64-1.1.5
+RUN chmod +x /app/shadowsocks-server-linux64-1.1.5
 
-CMD ["/ss/shadowsocks-server-linux64-1.1.5", "$@"]

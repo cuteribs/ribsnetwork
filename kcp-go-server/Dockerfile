@@ -5,10 +5,9 @@
 FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-WORKDIR /kcp
+WORKDIR /app
 
-ADD ./kcp-go-server-20161222.tar.bz /kcp/
+ADD ./*.bz /app/
 
-RUN chmod +x /kcp/server_linux_amd64
+RUN chmod +x /app/server_linux_amd64
 
-CMD ["/kcp/server_linux_amd64", "$@"]
