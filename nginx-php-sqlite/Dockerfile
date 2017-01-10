@@ -6,7 +6,7 @@ FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 RUN apk update && \
-	apk add nginx php5 php5-fpm php5-openssl php5-sqlite3 sqlite && \
+	apk add nginx php5-fpm php5-pdo_sqlite sqlite && \
 	rm -rf /var/cache/apk/*
 
 ADD ./nginx.conf /etc/nginx/
@@ -17,6 +17,6 @@ RUN chmod +x /run.sh
 
 EXPOSE 80
 EXPOSE 443
-VOLUME ["/DATA"]
+VOLUME ["/data"]
 
 CMD ["/run.sh"]
