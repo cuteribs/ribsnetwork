@@ -6,7 +6,7 @@ FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 RUN apk update && \
-	apk add nginx sqlite php5-fpm php5-pdo_sqlite php5-ctype php5-iconv && \
+	apk add nginx sqlite php5-fpm php5-pdo_sqlite php5-ctype php5-iconv php5-sockets php5-curl php5-memcache php5-apcu php5-xcache  && \
 	rm -rf /var/cache/apk/*
 
 ADD ./nginx.conf /etc/nginx/
