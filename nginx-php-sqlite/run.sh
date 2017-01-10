@@ -5,6 +5,7 @@
 if [ ! -d /data/www ] ; then
   mkdir -p /data/www
   chown nginx:www-data /data/www
+  chmod -R 777 /data/www
 fi
 
 # start php-fpm
