@@ -5,9 +5,9 @@
 FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-WORKDIR /ss
-
-ADD ./*.bz /ss/
+ADD ./*.gz /ss/
 
 RUN apk update && apk add python libsodium
+
+WORKDIR /ss/shadowsocks
 
