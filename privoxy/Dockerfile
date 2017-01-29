@@ -13,4 +13,4 @@ RUN apk update && \
 	rm -rf /etc/init.d/privoxy && \
 	rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/app/privoxy.sh"]
+CMD ["/app/privoxy.sh"]
