@@ -1,5 +1,5 @@
 #
-# Dockerfile for shadowsocks-libev
+# Dockerfile for privoxy
 #
 
 FROM alpine:3.4
