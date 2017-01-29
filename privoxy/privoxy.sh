@@ -8,4 +8,4 @@ if [ ! -f "$PRIVOXY_CONF" ]; then
 	echo forward-socks5 / localhost:$SOCKS5 . >> $PRIVOXY_CONF
 fi
 
-privoxy --no-daemon $PRIVOXY_CONF
+/app/privoxy --no-daemon $PRIVOXY_CONF
