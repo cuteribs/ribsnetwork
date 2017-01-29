@@ -9,5 +9,5 @@ WORKDIR /ss
 
 ADD ./*.bz /ss/
 
-RUN apk update && apk add mbedtls pcre
+RUN apk update && apk add mbedtls pcre && rm -rf /var/cache/*
 
