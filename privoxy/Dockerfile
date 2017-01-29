@@ -9,6 +9,7 @@ ADD ./privoxy.sh /app/
 
 RUN apk update && \
 	apk add privoxy && \
+	chmod +x /app/privoxy.sh && \
 	rm -rf /etc/init.d/privoxy && \
 	rm -rf /var/cache/apk/*
 
