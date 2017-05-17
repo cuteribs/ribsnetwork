@@ -20,4 +20,4 @@ RUN apk update && \
 	touch ~/cron.log && \
 	echo "$Time sh ~/dnspod.sh" > ~/cron.conf
 
-CMD crontab ~/cron.conf && tail -f ~/cron.log
+CMD sh ~/dnspod.sh && crontab ~/cron.conf && tail -f ~/cron.log
