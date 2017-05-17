@@ -21,7 +21,6 @@ RUN apk update && \
 	apk add curl && \
 	rm -rf /var/cache/apk/* && \
 	touch /app/cron.log && \
-	chmod +x /app/dnspod.sh && \
 	echo "$Time sh /app/dnspod.sh" > /app/cron.conf
 
-CMD /app/dnspod.sh && crontab /app/cron.conf && tail -f /app/cron.log
+CMD sh /app/dnspod.sh && crontab /app/cron.conf && tail -f /app/cron.log
