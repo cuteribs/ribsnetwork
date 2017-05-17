@@ -1,6 +1,7 @@
 #
 # Dockerfile for dnspod
 #
+# ENV Time
 # ENV Token
 # ENV Domain
 # ENV RecordId
@@ -13,6 +14,8 @@ FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 COPY dnspod.sh ~/
+
+ENV Time="* 6 * * *"
 
 RUN apk update && \
 	apk add curl && \
