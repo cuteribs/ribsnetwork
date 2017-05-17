@@ -13,7 +13,7 @@
 FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-COPY dnspod.sh ~/
+COPY ./dnspod.sh ~/
 
 ENV Time="* 6 * * *"
 
