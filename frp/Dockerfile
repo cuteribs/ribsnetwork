@@ -1,0 +1,12 @@
+#
+# Dockerfile for frp
+#
+
+FROM alpine:3.4
+MAINTAINER cuteribs <ericfine1981@live.com>
+
+WORKDIR /frp
+
+ADD ./frp_0.10.0_linux_amd64.tar.gz /frp/
+
+RUN chmod +x frps && chmod +x frpc
