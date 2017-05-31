@@ -1,14 +1,6 @@
 #
 # Dockerfile for dnspod
 #
-# ENV Time
-# ENV Token
-# ENV Domain
-# ENV RecordId
-# ENV RecordLineId
-# ENV SubDomain
-# ENV IP
-#
 
 FROM alpine:3.4
 MAINTAINER cuteribs <ericfine1981@live.com>
