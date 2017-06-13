@@ -10,12 +10,11 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 
 VOLUME /etc/letsencrypt/live
 
-COPY ./dnspod-auth-hook.sh /certbot/
+COPY ./*.sh /certbot/
 
 RUN apk update && \
 	apk add certbot openssl ca-certificates wget && \
 	rm -rf /var/cache/apk/* && \
-	DomainListParameters='' && \
-	for i in $(echo $DomainList | tr "," "\n"); do DomainListParameters="$DomainListParameters -d $i"; done
+	chmod +x /certbot/*.sh
 
-ENTRYPOINT ["certbot", "certonly -c cli.ini --manual-auth-hook /certbot/dnspod-auth-hook.sh $DomainListParameters"]
+CMD ["certbot.sh"]
