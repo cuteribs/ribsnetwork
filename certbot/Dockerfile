@@ -9,7 +9,7 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 #ENV Email=admin@example.com
 #ENV DomainList=example.com,www.example.com,test.example.com
 
-VOLUME /etc/letsencrypt/live
+VOLUME /etc/letsencrypt
 
 COPY ./*.sh /certbot/
 COPY ./cli.ini /certbot/

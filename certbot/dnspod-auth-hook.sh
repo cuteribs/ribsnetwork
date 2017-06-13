@@ -21,7 +21,20 @@ Response=$(wget -qO- --no-check-certificate --post-data "login_token=$LoginToken
 Code=$(echo $Response | sed 's/.*{"code":"\([0-9]*\)".*/\1/')
 
 if [ "$Code" -eq "1" ]; then
-	echo -e "TXT record is created as $SubDomain.$Domain = $CERTBOT_VALIDATION\n"
+	echo -e "TXT record is created as $SubDomain.$Domain = $CERTBOT_VALIDATION\n"	
+	RecordId=$(echo $Response | sed 's/.*"record":{"id":"\([0-9]*\)".*/\1/')
+	
+	# save record ID for cleanup hook
+	if [ ! -d /tmp/certbot ]; then
+		mkdir /tmp/certbot
+	fi
+	
+	if [ -f /tmp/certbot/record_id ]; then
+		echo "$RecordId" >> /tmp/certbot/record_id
+	else
+		echo "$RecordId" > /tmp/certbot/record_id
+	fi	
+	
 	echo -e "Waiting for 15 seconds"
 	sleep 10
 fi

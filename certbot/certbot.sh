@@ -19,4 +19,4 @@ do
 	DomainListParameters="$DomainListParameters -d $i"
 done
 
-certbot certonly -n -c /certbot/cli.ini -m $Email --manual-auth-hook /certbot/dnspod-auth-hook.sh $DomainListParameters
+certbot certonly -n -c /certbot/cli.ini -m $Email --manual-auth-hook /certbot/dnspod-auth-hook.sh --manual-cleanup-hook /certbot/dnspod-cleanup-hook.sh $DomainListParameters
