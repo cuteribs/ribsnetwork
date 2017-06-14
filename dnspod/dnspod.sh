@@ -52,7 +52,7 @@ if [ "$Code" = "1" ]; then
 	else
 		echo "Failed to update IP of $SubDomain.$Domain."
 		echo $Result | jq -r '.status.message'
-		exit -1
+		exit 1
 	fi	
 else
 	echo "Record ID does not exist."
@@ -65,7 +65,7 @@ else
 	else
 		echo "Failed to update IP of $SubDomain.$Domain."
 		echo $Result | jq -r '.status.message'
-		exit -1
+		exit 1
 	fi	
 fi
 
