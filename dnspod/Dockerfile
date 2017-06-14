@@ -10,7 +10,7 @@ COPY ./dnspod.sh /app/
 ENV Time="* 6 * * *"
 
 RUN apk update && \
-	apk add ca-certificates openssl && \
+	apk add wget ca-certificates openssl && \
 	rm -rf /var/cache/apk/* && \
 	touch /app/cron.log && \
 	echo "$Time sh /app/dnspod.sh" > /app/cron.conf
