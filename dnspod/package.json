@@ -1,0 +1,18 @@
+{
+  "name": "ddns",
+  "version": "1.0.0",
+  "description": "ddns",
+  "main": "ddns.js",
+  "dependencies": {
+    "promise": "^7.2.0",
+    "qcloudapi-sdk": "^0.1.5",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
