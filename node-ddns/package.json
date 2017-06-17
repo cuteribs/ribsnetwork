@@ -5,14 +5,15 @@
   "main": "ddns.js",
   "dependencies": {
     "promise": "^7.2.0",
-    "qcloudapi-sdk": "^0.1.5",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request": "^2.81.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "cuteribs",
+  "license": "ISC",
+  "keywords": [
+    "ddns"
+  ]
 }
