@@ -4,6 +4,7 @@
   "description": "ddns",
   "main": "ddns.js",
   "dependencies": {
+    "node-schedule": "^1.2.3",
     "promise": "^7.2.0",
     "request": "^2.81.0"
   },
