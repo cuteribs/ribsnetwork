@@ -30,7 +30,6 @@ fi
 ErrorMessage=""
 
 urlencode() {
-	echo 'URL encoding...'
 	local raw="$1";
 	local len="${#raw}"
 	local encoded=""
@@ -89,7 +88,7 @@ getRecordId() {
 
 # $1 = record ID, $2 = new IP
 updateRecord() {
-	local result=$(sendRequest "RecordModify" "domain=$Domain&recordId=$1&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$2")
+	local result=$(sendRequest "RecordModify" "domain=$Domain&recordId=$1&recordLine=é»˜è®¤&recordType=A&subDomain=$SubDomain&value=$2")
 	local code=$(echo $result | jq -r '.code')
 	
 	if [ "$code" = "0" ]; then
@@ -103,9 +102,9 @@ updateRecord() {
 
 # $1 = new IP
 addRecord() {
-	local result=$(sendRequest "RecordCreate" "domain=$Domain&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$1")
+	local result=$(sendRequest "RecordCreate" "domain=$Domain&recordLine=é»˜è®¤&recordType=A&subDomain=$SubDomain&value=$1")
 	local code=$(echo $result | jq -r '.code')
-	
+
 	if [ "$code" = "0" ]; then
 		local recordId=$(echo $result | jq -r '.data.record.id')
 		echo $recordId

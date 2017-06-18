@@ -32,7 +32,6 @@ Nonce=$RANDOM
 Timestamp=$(date -u "+%Y-%m-%dT%H%%3A%M%%3A%SZ")	# SB 阿里云, 什么鬼时间格式
 
 urlencode() {
-	echo 'URL encoding...' >&2
 	local raw="$1";
 	local len="${#raw}"
 	local encoded=""
