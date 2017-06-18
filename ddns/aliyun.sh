@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 if [ $1 ]; then
 	AccessKeyId=$1
 fi
@@ -10,6 +12,11 @@ fi
 
 if [ $3 ]; then
 	DomainName=$3
+fi
+
+if [ -z "$AccessKeyId" -o -z "$AccessKeySecret" -o -z "$DomainName" ]; then
+	echo "Missing parameters"
+	exit 1
 fi
 
 if [ $4 ]; then
@@ -23,30 +30,28 @@ fi
 ErrorMessage=""
 Nonce=$RANDOM
 Timestamp=$(date -u "+%Y-%m-%dT%H%%3A%M%%3A%SZ")	# SB 阿里云, 什么鬼时间格式
-echo $Timestamp
 
 urlencode() {
-    # urlencode <string>
-    old_lc_collate=$LC_COLLATE
-    LC_COLLATE=C
-    
-    local length="${#1}"
-    for (( i = 0; i < length; i++ )); do
-        local c="${1:i:1}"
-        case $c in
-            [a-zA-Z0-9.~_-]) printf "$c" ;;
-            *) printf '%%%02X' "'$c" ;;
-        esac
-    done
-    
-    LC_COLLATE=$old_lc_collate
+	# urlencode <string>
+	old_lc_collate=$LC_COLLATE
+	LC_COLLATE=C
+
+	local length="${#1}"
+	for (( i = 0; i < length; i++ )); do
+		local c="${1:i:1}"
+		case $c in
+			[a-zA-Z0-9.~_-]) printf "$c" ;;
+			*) printf '%%%02X' "'$c" ;;
+		esac
+	done
+
+	LC_COLLATE=$old_lc_collate
 }
 
 # $1 = query string
 getSignature() {
 	local encodedQuery=$(urlencode $1)
 	local message="GET&%2F&$encodedQuery"
-	echo "message=$message" >&2
 	local sig=$(echo -n "$message" | openssl dgst -sha1 -hmac "$AccessKeySecret&" -binary | openssl base64)
 	echo $(urlencode $sig)
 }
@@ -54,11 +59,11 @@ getSignature() {
 sendRequest() {
 	local sig=$(getSignature $1)
 	local result=$(curl -s "https://alidns.aliyuncs.com?$1&Signature=$sig")
-	echo "url=https://alidns.aliyuncs.com?$1&Signature=$sig" >&2
 	echo $result
 }
 
 getRecordId() {
+	echo "Retreiving the record of $SubDomain.$DomainName..." >&2
 	local queryString="AccessKeyId=$AccessKeyId&Action=DescribeDomainRecords&DomainName=$DomainName&Format=JSON&RRKeyWord=$SubDomain&SignatureMethod=HMAC-SHA1&SignatureNonce=$Nonce&SignatureVersion=1.0&Timestamp=$Timestamp&TypeKeyWord=A&Version=2015-01-09"
 	local result=$(sendRequest "$queryString")
 	local code=$(echo $result | jq -r '.Code')
@@ -67,8 +72,8 @@ getRecordId() {
 		local ip=$(echo $result | jq -r '.DomainRecords.Record[0].Value')
 
 		if [ "$ip" == "$NewIP" ]; then
-			echo "IP remains the same, quiting the script..."
-			exit 0
+			echo "IP remains the same, quiting the script..." >&2
+			exit 1
 		fi
 
 		local recordId=$(echo $result | jq -r '.DomainRecords.Record[0].RecordId')
@@ -91,7 +96,6 @@ updateRecord() {
 	else
 		echo $(echo $result | jq -r '.Message') >&2
 		exit 1
-		echo "123" >&2
 	fi
 }
 
@@ -116,9 +120,7 @@ NewIP=$(curl -s http://members.3322.org/dyndns/getip)
 echo "Current IP is $NewIP."
 
 # Get record ID of sub domain
-echo "Retreiving the record of $SubDomain.$DomainName..."
 recordId=$(getRecordId)
-echo $recordId
 
 if [ "$recordId" = "null" ]; then
 	echo "Record ID does not exist."

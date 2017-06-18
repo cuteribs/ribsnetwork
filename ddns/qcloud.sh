@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 if [ $1 ]; then
 	SecretId=$1
 fi
@@ -10,6 +12,11 @@ fi
 
 if [ $3 ]; then
 	Domain=$3
+fi
+
+if [ -z "$SecretId" -o -z "$SecretKey" -o -z "$Domain" ]; then
+	echo "Missing parameters"
+	exit 1
 fi
 
 if [ $4 ]; then
@@ -24,94 +31,87 @@ ErrorMessage=""
 
 # $1 = query string
 getSignature() {
-	Message="GETcns.api.qcloud.com/v2/index.php?$1"
-	Sig=$(echo -n "$Message" | openssl dgst -sha256 -hmac "$SecretKey" -binary | openssl base64)
-	Sig=$(echo $Sig | sed 's:+:%2B:g')
-	Sig=$(echo $Sig | sed 's:/:%2F:g')
-	Sig=$(echo $Sig | sed 's:=:%3D:g')
-	echo $Sig
+	local message="GETcns.api.qcloud.com/v2/index.php?$1"
+	local sig=$(echo -n "$message" | openssl dgst -sha256 -hmac "$SecretKey" -binary | openssl base64)
+	sig=$(echo $sig | sed 's:+:%2B:g')
+	sig=$(echo $sig | sed 's:/:%2F:g')
+	sig=$(echo $sig | sed 's:=:%3D:g')
+	echo $sig
 }
 
 sendRequest() {
-	Nonce=$RANDOM
-	Timestamp=$(date '+%s')
-	QueryString="Action=$1&Nonce=$Nonce&Region=sh&SecretId=$SecretId&SignatureMethod=HmacSHA256&Timestamp=$Timestamp&$2"
-	Signature=$(getSignature $QueryString)
-	Result=$(wget -qO- --no-check-certificate "https://cns.api.qcloud.com/v2/index.php?$QueryString&Signature=$Signature")
-	echo $Result
+	local nonce=$RANDOM
+	local timestamp=$(date '+%s')
+	local query="Action=$1&Nonce=$nonce&Region=sh&SecretId=$SecretId&SignatureMethod=HmacSHA256&Timestamp=$timestamp&$2"
+	local signature=$(getSignature $query)
+	local result=$(wget -qO- --no-check-certificate "https://cns.api.qcloud.com/v2/index.php?$query&Signature=$signature")
+	echo $result
 }
 
-getRecordId() {	
-	Result=$(sendRequest "RecordList" "domain=$Domain&recordType=A&subDomain=$SubDomain")
-	Code=$(echo $Result | jq -r '.code')
+getRecordId() {
+	echo "Retreiving the record ID of $SubDomain.$Domain..." >&2
+	local result=$(sendRequest "RecordList" "domain=$Domain&recordType=A&subDomain=$SubDomain")
+	local code=$(echo $result | jq -r '.code')
 	
-	if [ "$Code" = "0" ]; then
-		RecordId=$(echo $Result | jq -r '.data.records[0].id')
-		echo $RecordId
+	if [ "$code" = "0" ]; then
+		local ip=$(echo $result | jq -r '.data.records[0].value')
+
+		if [ "$ip" = "$NewIP" ]; then
+			echo "IP remains the same, quiting the script..." >&2
+			exit 1
+		fi
+
+		local recordId=$(echo $result | jq -r '.data.records[0].id')
+		echo $recordId
 	else
-		ErrorMessage=$(echo $Result | jq -r '.message')
+		ErrorMessage=$(echo $result | jq -r '.message')
 		echo "null"
 	fi
 }
 
 # $1 = record ID, $2 = new IP
 updateRecord() {
-	Result=$(sendRequest "RecordModify" "domain=$Domain&recordId=$1&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$2")
-	Code=$(echo $Result | jq -r '.code')
+	local result=$(sendRequest "RecordModify" "domain=$Domain&recordId=$1&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$2")
+	local code=$(echo $result | jq -r '.code')
 	
-	if [ "$Code" = "0" ]; then
-		RecordId=$(echo $Result | jq -r '.data.record.id')
+	if [ "$code" = "0" ]; then
+		local recordId=$(echo $result | jq -r '.data.record.id')
 		echo $RecordId
 	else
-		ErrorMessage=$(echo $Result | jq -r '.message')
+		ErrorMessage=$(echo $result | jq -r '.message')
 		echo "null"
 	fi
 }
 
 # $1 = new IP
 addRecord() {
-	Result=$(sendRequest "RecordCreate" "domain=$Domain&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$1")
-	Code=$(echo $Result | jq -r '.code')
+	local result=$(sendRequest "RecordCreate" "domain=$Domain&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$1")
+	local code=$(echo $result | jq -r '.code')
 	
-	if [ "$Code" = "0" ]; then
-		RecordId=$(echo $Result | jq -r '.data.record.id')
-		echo $RecordId
+	if [ "$code" = "0" ]; then
+		local recordId=$(echo $result | jq -r '.data.record.id')
+		echo $recordId
 	else
-		ErrorMessage=$(echo $Result | jq -r '.message')
+		ErrorMessage=$(echo $result | jq -r '.message')
 		echo "null"
 	fi
 }
-
-LastIP=""
-LastIPFile="/tmp/last_ip"
-
-if [ -f "$LastIPFile" ]; then
-	LastIP=$(cat "$LastIPFile")
-	echo "Last IP $LastIP is found."
-fi
 
 # Get new IP address
 echo "Retreiving current IP..."
 NewIP=$(wget -qO- http://members.3322.org/dyndns/getip)
 echo "Current IP $NewIP is retrieved."
 
-# Quit the script if no IP change
-if [ "$NewIP" = "$LastIP" ]; then
-	echo "No IP change, quiting the script..."
-	exit 0
-fi
-
 # Get record ID of sub domain
-echo "Retreiving the record ID of $SubDomain.$Domain..."
 RecordId=$(getRecordId)
 
 if [ "$RecordId" = "null" ]; then
 	echo "Record ID does not exist."
-	echo "Pointing $SubDomain.$Domain to $NewIP..."
+	echo "Creating $SubDomain.$Domain to $NewIP..."
 	RecordId=$(addRecord $NewIP)
 else
 	echo "Record ID $RecordId exists."
-	echo "Pointing $SubDomain.$Domain to $NewIP..."
+	echo "Updating $SubDomain.$Domain to $NewIP..."
 	RecordId=$(updateRecord $RecordId $NewIP)
 fi
 	
@@ -120,5 +120,4 @@ if [ "$RecordId" = "null" ]; then
 	echo $ErrorMessage
 else
 	echo "$SubDomain.$Domain => $NewIP, IP updated."
-	echo "$NewIP" > $LastIPFile
 fi
