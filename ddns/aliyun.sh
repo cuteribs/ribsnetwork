@@ -32,20 +32,25 @@ Nonce=$RANDOM
 Timestamp=$(date -u "+%Y-%m-%dT%H%%3A%M%%3A%SZ")	# SB 阿里云, 什么鬼时间格式
 
 urlencode() {
-	# urlencode <string>
-	old_lc_collate=$LC_COLLATE
-	LC_COLLATE=C
+	echo 'URL encoding...' >&2
+	local raw="$1";
+	local len="${#raw}"
+	local encoded=""
 
-	local length="${#1}"
-	for (( i = 0; i < length; i++ )); do
-		local c="${1:i:1}"
-		case $c in
-			[a-zA-Z0-9.~_-]) printf "$c" ;;
-			*) printf '%%%02X' "'$c" ;;
+	for i in `seq 1 $len`; do
+		local j=$((i+1))
+		local c=$(echo $raw | cut -c$i-$i)
+
+		case $c in [a-zA-Z0-9.~_-]) ;;
+			*)
+			c=$(printf '%%%02X' "'$c") ;;
 		esac
+
+		encoded="$encoded$c"
 	done
 
-	LC_COLLATE=$old_lc_collate
+	echo 'URL encoding finished.' >&2
+	echo $encoded
 }
 
 # $1 = query string
@@ -58,7 +63,7 @@ getSignature() {
 
 sendRequest() {
 	local sig=$(getSignature $1)
-	local result=$(curl -s "https://alidns.aliyuncs.com?$1&Signature=$sig")
+	local result=$(wget -qO- --no-check-certificate "https://alidns.aliyuncs.com?$1&Signature=$sig")
 	echo $result
 }
 
@@ -116,7 +121,7 @@ addRecord() {
 
 # Get new IP address
 echo "Retreiving current IP..."
-NewIP=$(curl -s http://members.3322.org/dyndns/getip)
+NewIP=$(wget -qO- --no-check-certificate "http://members.3322.org/dyndns/getip")
 echo "Current IP is $NewIP."
 
 # Get record ID of sub domain

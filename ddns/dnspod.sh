@@ -23,7 +23,7 @@ fi
 
 # Get new IP address
 echo "Retreiving current IP..."
-NewIP=$(wget -qO- http://members.3322.org/dyndns/getip)
+NewIP=$(wget -qO- --no-check-certificate http://members.3322.org/dyndns/getip)
 echo "Current IP $NewIP is retrieved."
 
 # Get record ID of sub domain

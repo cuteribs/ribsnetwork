@@ -29,14 +29,33 @@ fi
 
 ErrorMessage=""
 
+urlencode() {
+	echo 'URL encoding...'
+	local raw="$1";
+	local len="${#raw}"
+	local encoded=""
+
+	for i in `seq 1 $len`; do
+		local j=$((i+1))
+		local c=$(echo $raw | cut -c$i-$i)
+
+		case $c in [a-zA-Z0-9.~_-]) ;;
+			*)
+			c=$(printf '%%%02X' "'$c") ;;
+		esac
+
+		encoded="$encoded$c"
+	done
+
+	echo 'URL encoding finished.'
+	echo $encoded
+}
+
 # $1 = query string
 getSignature() {
 	local message="GETcns.api.qcloud.com/v2/index.php?$1"
 	local sig=$(echo -n "$message" | openssl dgst -sha256 -hmac "$SecretKey" -binary | openssl base64)
-	sig=$(echo $sig | sed 's:+:%2B:g')
-	sig=$(echo $sig | sed 's:/:%2F:g')
-	sig=$(echo $sig | sed 's:=:%3D:g')
-	echo $sig
+	echo $(urlencode $sig)
 }
 
 sendRequest() {
@@ -99,7 +118,7 @@ addRecord() {
 
 # Get new IP address
 echo "Retreiving current IP..."
-NewIP=$(wget -qO- http://members.3322.org/dyndns/getip)
+NewIP=$(wget -qO- --no-check-certificate http://members.3322.org/dyndns/getip)
 echo "Current IP $NewIP is retrieved."
 
 # Get record ID of sub domain
