@@ -49,7 +49,6 @@ urlencode() {
 		encoded="$encoded$c"
 	done
 
-	echo 'URL encoding finished.' >&2
 	echo $encoded
 }
 
