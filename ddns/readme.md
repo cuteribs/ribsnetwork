@@ -1,8 +1,19 @@
+#### dnspod (create or update)
 ```
-docker run \
--e Time="* 6 * * *" \							# update at 06:00 everyday
--e Token="22222,xxxxxxxxxxxxxxxxxxxx" \			# login token for dnspod.cn
--e Domain="mydomain.com" \						# domain name
--e SubDomain="www" \							# sub domain name
-cuteribs/dnspod
+sh dnspod.sh {ApiID},{ApiKey} example.com www
+```
+---
+#### qcloud (create or update)
+```
+sh qcloud.sh {SecretId} {SecretKey} example.com www
+```
+---
+#### aliyun (create or update)
+```
+sh aliyun.sh {AccessKeyId} {AccessKeySecret} example.com www
+```
+---
+#### cloudxns (update only)
+```
+sh cloudxns.sh {ApiKey} {SecretKey} example.com www
 ```
