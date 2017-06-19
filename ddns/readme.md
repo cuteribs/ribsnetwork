@@ -1,19 +1,19 @@
-#### dnspod (create or update)
+#### dnspod (添加 / 更新) *推荐*
 ```
 sh dnspod.sh {ApiID},{ApiKey} example.com www
 ```
 ---
-#### qcloud (create or update)
+#### qcloud (添加 / 更新)
 ```
 sh qcloud.sh {SecretId} {SecretKey} example.com www
 ```
 ---
-#### aliyun (create or update)
+#### aliyun (添加 / 更新)
 ```
 sh aliyun.sh {AccessKeyId} {AccessKeySecret} example.com www
 ```
 ---
-#### cloudxns (update only)
+#### cloudxns (只能更新)
 ```
 sh cloudxns.sh {ApiKey} {SecretKey} example.com www
 ```

@@ -15,7 +15,7 @@ if [ $3 ]; then
 fi
 
 if [ -z "$ApiKey" -o -z "$SecretKey" -o -z "$Domain" ]; then
-	echo "Missing parameters"
+	echo "参数缺失"
 	exit 1
 fi
 
@@ -43,22 +43,17 @@ sendRequest() {
 }
 
 updateDDNS() {
-	echo "Updating $Host.$Domain to $NewIP..."
-	local result=$(sendRequest "{\"domain\":\"$Host.$Domain.\",\"ip\":\"$NewIP\"}")
+	echo "更新 $Host.$Domain 的 IP..."
+	local result=$(sendRequest "{\"domain\":\"$Host.$Domain.\"}")
 	local code=$(echo $result | jq -r '.code')
 
 	if [ "$code" = "1" ]; then
-		echo "$Host.$Domain => $NewIP, IP updated." >&2
+		echo "更新完成." >&2
 	else
 		local message=$(echo $result | jq -r '.message')
-		echo "$message" >&2
+		echo "更新出错. 错误提示: $message" >&2
 		exit 1
 	fi
 }
-
-# Get new IP address
-echo "Retreiving current IP..."
-NewIP=$(wget -qO- --no-check-certificate http://members.3322.org/dyndns/getip)
-echo "Current IP $NewIP is retrieved."
 
 updateDDNS

@@ -15,7 +15,7 @@ if [ $3 ]; then
 fi
 
 if [ -z "$AccessKeyId" -o -z "$AccessKeySecret" -o -z "$DomainName" ]; then
-	echo "Missing parameters"
+	echo "参数缺失"
 	exit 1
 fi
 
@@ -66,7 +66,7 @@ sendRequest() {
 }
 
 getRecordId() {
-	echo "Retreiving the record of $SubDomain.$DomainName..." >&2
+	echo "获取 $SubDomain.$DomainName 的 IP..." >&2
 	local queryString="AccessKeyId=$AccessKeyId&Action=DescribeDomainRecords&DomainName=$DomainName&Format=JSON&RRKeyWord=$SubDomain&SignatureMethod=HMAC-SHA1&SignatureNonce=$Nonce&SignatureVersion=1.0&Timestamp=$Timestamp&TypeKeyWord=A&Version=2015-01-09"
 	local result=$(sendRequest "$queryString")
 	local code=$(echo $result | jq -r '.Code')
@@ -75,7 +75,7 @@ getRecordId() {
 		local ip=$(echo $result | jq -r '.DomainRecords.Record[0].Value')
 
 		if [ "$ip" == "$NewIP" ]; then
-			echo "IP remains the same, quiting the script..." >&2
+			echo "IP 无变化, 退出脚本..." >&2
 			exit 1
 		fi
 
@@ -118,26 +118,24 @@ addRecord() {
 }
 
 # Get new IP address
-echo "Retreiving current IP..."
+echo "获取当前 IP..."
 NewIP=$(wget -qO- --no-check-certificate "http://members.3322.org/dyndns/getip")
-echo "Current IP is $NewIP."
+echo "当前 IP 为 $NewIP."
 
 # Get record ID of sub domain
 recordId=$(getRecordId)
 
 if [ "$recordId" = "null" ]; then
-	echo "Record ID does not exist."
-	echo "Creating $SubDomain.$DomainName to $NewIP..."
+	echo "域名记录不存在, 添加 $SubDomain.$DomainName 至 $NewIP..."
 	recordId=$(addRecord $NewIP)
 else
-	echo "Record ID $recordId exists."
-	echo "Updating $SubDomain.$DomainName to $NewIP..."
+	echo "域名记录已存在, 更新 $SubDomain.$DomainName 至 $NewIP..."
 	recordId=$(updateRecord $recordId $NewIP)
 fi
 	
 if [ "$recordId" = "null" ]; then
-	echo "Failed to update IP of $SubDomain.$DomainName."
-	echo "error=$ErrorMessage"
+	echo "更新失败."
+	echo "错误提示: $ErrorMessage"
 else
-	echo "$SubDomain.$DomainName => $NewIP, IP updated."
+	echo "$SubDomain.$DomainName 已指向 $NewIP."
 fi
