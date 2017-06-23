@@ -66,36 +66,33 @@ sendRequest() {
 getRecordId() {
 	echo "获取 $SubDomain.$Domain 的 IP..." >&2
 	local result=$(sendRequest "RecordList" "domain=$Domain&recordType=A&subDomain=$SubDomain")
-	local code=$(echo $result | jq -r '.code')
+	local code=$(echo $result | sed 's/.*{"code":\([0-9]*\),.*/\1/')
+	local recordId=$(echo $result | sed 's/.*\[{"id":\([0-9]*\).*/\1/')
 	
-	if [ "$code" = "0" ]; then
-		local ip=$(echo $result | jq -r '.data.records[0].value')
+	if [ "$code" = "0" ] && [ ! "$recordId" = "$result" ]; then
+		local ip=$(echo $result | sed 's/.*\,"value":"\([0-9\.]*\)".*/\1/')
 
 		if [ "$ip" = "$NewIP" ]; then
 			echo "IP 无变化, 退出脚本..." >&2
 			exit 1
 		fi
 
-		local recordId=$(echo $result | jq -r '.data.records[0].id')
 		echo $recordId
 	else
-		local error=$(echo $result | jq -r '.message')
-		echo "$error" >&2
-		exit 1
+		echo "null"
 	fi
 }
 
 # $1 = record ID, $2 = new IP
 updateRecord() {
 	local result=$(sendRequest "RecordModify" "domain=$Domain&recordId=$1&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$2")
-	local code=$(echo $result | jq -r '.code')
+	local code=$(echo $result | sed 's/.*{"code":\([0-9]*\),.*/\1/')
 	
-	if [ "$code" = "0" ]; then
-		local recordId=$(echo $result | jq -r '.data.record.id')
-		echo $RecordId
+	if [ "$code" = "0" ] && [ ! "$recordId" = "$result" ]; then
+		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
 	else
-		local error=$(echo $result | jq -r '.message')
-		echo "$error" >&2
+		echo "更新失败." >&2
+		echo $result >&2
 		exit 1
 	fi
 }
@@ -103,14 +100,13 @@ updateRecord() {
 # $1 = new IP
 addRecord() {
 	local result=$(sendRequest "RecordCreate" "domain=$Domain&recordLine=默认&recordType=A&subDomain=$SubDomain&value=$1")
-	local code=$(echo $result | jq -r '.code')
+	local code=$(echo $result | sed 's/.*{"code":\([0-9]*\),.*/\1/')
 
-	if [ "$code" = "0" ]; then
-		local recordId=$(echo $result | jq -r '.data.record.id')
-		echo $recordId
+	if [ "$code" = "0" ] && [ ! "$recordId" = "$result" ]; then
+		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
 	else
-		local error=$(echo $result | jq -r '.message')
-		echo "$error" >&2
+		echo "添加失败." >&2
+		echo $result >&2
 		exit 1
 	fi
 }
@@ -122,6 +118,7 @@ echo "当前 IP 为 $NewIP."
 
 # Get record ID of sub domain
 RecordId=$(getRecordId)
+echo $ResultId
 
 if [ "$RecordId" = "null" ]; then
 	echo "域名记录不存在, 添加 $SubDomain.$Domain 至 $NewIP..."
@@ -129,10 +126,4 @@ if [ "$RecordId" = "null" ]; then
 else
 	echo "域名记录已存在, 更新 $SubDomain.$Domain 至 $NewIP..."
 	RecordId=$(updateRecord $RecordId $NewIP)
-fi
-	
-if [ "$RecordId" = "null" ]; then
-	echo "更新失败."
-else
-	echo "$SubDomain.$Domain 已指向 $NewIP."
 fi

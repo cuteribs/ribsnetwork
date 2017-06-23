@@ -45,13 +45,13 @@ sendRequest() {
 updateDDNS() {
 	echo "更新 $Host.$Domain 的 IP..."
 	local result=$(sendRequest "{\"domain\":\"$Host.$Domain.\"}")
-	local code=$(echo $result | jq -r '.code')
+	local code=$(echo $result | sed 's/.*{"code":\([0-9]*\),.*/\1/')
 
 	if [ "$code" = "1" ]; then
 		echo "更新完成." >&2
 	else
-		local message=$(echo $result | jq -r '.message')
-		echo "更新出错. 错误提示: $message" >&2
+		echo "更新出错." >&2
+		echo $result >&2
 		exit 1
 	fi
 }
