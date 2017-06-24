@@ -5,7 +5,7 @@
 FROM alpine:3.6
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-COPY ./dnspod.sh /app/
+COPY ./*.sh /app/
 
 WORKDIR /app/
 
