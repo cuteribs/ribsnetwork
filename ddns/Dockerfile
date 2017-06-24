@@ -7,12 +7,17 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 
 COPY ./dnspod.sh /app/
 
+WORKDIR /app/
+
 ENV Time="* 6 * * *"
+ENV Script="dnspod"
+ENV ApiId="123456789"
+ENV ApiKey="f7c3bc1d808e04732adf679965ccc34ca7ae3441"
+ENV Domain="example.com"
+ENV SubDomain="www"
 
 RUN apk update && \
-	apk add wget ca-certificates openssl jq && \
+	apk add wget ca-certificates openssl && \
 	rm -rf /var/cache/apk/* && \
-	touch /app/cron.log && \
-	echo "$Time sh /app/dnspod.sh" > /app/cron.conf
 
-CMD sh /app/dnspod.sh && crontab /app/cron.conf && tail -f /app/cron.log
+ENTRYPOINT /app/ddns.sh

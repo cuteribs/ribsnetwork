@@ -3,25 +3,31 @@
 set -e
 
 if [ $1 ]; then
-	LoginToken=$1
+	ApiId=$1
 fi
 
 if [ $2 ]; then
-	Domain=$2
+	ApiKey=$2
 fi
 
-if [ -z "$LoginToken" -o -z "$Domain" ]; then
+if [ $3 ]; then
+	Domain=$3
+fi
+
+if [ -z "$ApiId" -o -z "$ApiKey" -o -z "$Domain" ]; then
 	echo "参数缺失"
 	exit 1
 fi
 
-if [ $3 ]; then
-	SubDomain=$3
+if [ $4 ]; then
+	SubDomain=$4
 fi
 
 if [ -z "$SubDomain" ]; then
 	SubDomain="@"
 fi
+
+LoginToken="$ApiId,$ApiKey"
 
 # Get new IP address
 echo "获取当前 IP..."

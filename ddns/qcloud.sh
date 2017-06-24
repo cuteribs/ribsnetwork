@@ -3,18 +3,18 @@
 set -e
 
 if [ $1 ]; then
-	SecretId=$1
+	ApiId=$1
 fi
 
 if [ $2 ]; then
-	SecretKey=$2
+	ApiKey=$2
 fi
 
 if [ $3 ]; then
 	Domain=$3
 fi
 
-if [ -z "$SecretId" -o -z "$SecretKey" -o -z "$Domain" ]; then
+if [ -z "$ApiId" -o -z "$ApiKey" -o -z "$Domain" ]; then
 	echo "参数缺失"
 	exit 1
 fi
@@ -50,14 +50,14 @@ urlencode() {
 # $1 = query string
 getSignature() {
 	local message="GETcns.api.qcloud.com/v2/index.php?$1"
-	local sig=$(echo -n "$message" | openssl dgst -sha256 -hmac "$SecretKey" -binary | openssl base64)
+	local sig=$(echo -n "$message" | openssl dgst -sha256 -hmac "$ApiKey" -binary | openssl base64)
 	echo $(urlencode $sig)
 }
 
 sendRequest() {
 	local nonce=$RANDOM
 	local timestamp=$(date '+%s')
-	local query="Action=$1&Nonce=$nonce&Region=sh&SecretId=$SecretId&SignatureMethod=HmacSHA256&Timestamp=$timestamp&$2"
+	local query="Action=$1&Nonce=$nonce&Region=sh&SecretId=$ApiId&SignatureMethod=HmacSHA256&Timestamp=$timestamp&$2"
 	local sig=$(getSignature $query)
 	local result=$(wget -qO- --no-check-certificate "https://cns.api.qcloud.com/v2/index.php?$query&Signature=$sig")
 	echo $result
