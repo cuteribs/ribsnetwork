@@ -1,11 +1,11 @@
 ## Docker 运行方式
 #### 环境变量
-	Time: 计划运行时间, 默认为 "* 6 * * *".
-	Script: 脚本选择, 默认为 "dnspod", 可选脚本有 "dnspod, qcloud, aliyun, cloudxns".
-	ApiId: API 密钥 ID, 如 "123456789".
-	ApiKey: API 密钥, 如 "f7c3bc1d808e04732adf679965ccc34ca7ae3441".
-	Domain: 顶级域名, 如 "example.com"
-	SubDomain: 子域名, 如 "www"
+>Time: 计划运行时间, 默认为 "* 6 * * *".
+>Script: 脚本选择, 默认为 "dnspod", 可选脚本有 "dnspod, qcloud, aliyun, cloudxns".
+>ApiId: API 密钥 ID, 如 "123456789".
+>ApiKey: API 密钥, 如 "f7c3bc1d808e04732adf679965ccc34ca7ae3441".
+>Domain: 顶级域名, 如 "example.com"
+>SubDomain: 子域名, 如 "www"
 
 
 ## 直接脚本运行方式
