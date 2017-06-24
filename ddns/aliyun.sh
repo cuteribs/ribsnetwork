@@ -62,7 +62,6 @@ getSignature() {
 sendRequest() {
 	local sig=$(getSignature $1)
 	local result=$(wget -qO- --no-check-certificate --content-on-error "https://alidns.aliyuncs.com?$1&Signature=$sig")
-	echo $result >&2
 	echo $result
 }
 
