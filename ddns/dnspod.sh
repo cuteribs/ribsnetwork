@@ -44,7 +44,7 @@ if [ "$Code" = "1" ]; then
 
 	if [ "$ip" = "$NewIP" ]; then
 		echo "IP 无变化, 退出脚本..."
-		exit 0
+		exit 1
 	fi
 
 	RecordId=$(echo $Result | sed 's/.*\[{"id":"\([0-9]*\)".*/\1/')
