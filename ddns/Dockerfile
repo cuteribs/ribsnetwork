@@ -20,4 +20,4 @@ RUN apk update && \
 	apk add wget ca-certificates openssl && \
 	rm -rf /var/cache/apk/*
 
-ENTRYPOINT /app/ddns.sh
+ENTRYPOINT sh /app/ddns.sh
