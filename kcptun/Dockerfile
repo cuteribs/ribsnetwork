@@ -2,7 +2,7 @@
 # Dockerfile for kcptun
 #
 
-FROM alpine:3.4
+FROM alpine:3.6
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 WORKDIR /kcptun

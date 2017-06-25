@@ -18,6 +18,8 @@ ENV SubDomain="www"
 
 RUN apk update && \
 	apk add wget ca-certificates openssl && \
-	rm -rf /var/cache/apk/*
+	rm -rf /var/cache/apk/* && \
+	touch /app/cron.log && \
+	echo "$Time sh /app/$Script.sh" > /app/cron.conf
 
-ENTRYPOINT sh /app/ddns.sh
+CMD sh "/app/$Script.sh" && crontab /app/cron.conf && tail -f /app/cron.log
