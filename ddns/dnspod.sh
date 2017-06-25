@@ -44,12 +44,12 @@ getRecordId() {
 		ip=$(echo $result | sed 's/.*\,"value":"\([0-9\.]*\)".*/\1/')
 
 		if [ "$ip" = "$NewIP" ]; then
-			echo "IP 无变化, 退出脚本..."
+			echo "IP 无变化, 退出脚本..." >&2
 			echo "quit"
+		else
+			local recordId=$(echo $result | sed 's/.*\[{"id":"\([0-9]*\)".*/\1/')
+			echo $recordId
 		fi
-
-		local recordId=$(echo $result | sed 's/.*\[{"id":"\([0-9]*\)".*/\1/')
-		echo $recordId
 	else
 		echo "null"
 	fi
@@ -57,12 +57,12 @@ getRecordId() {
 
 # $1 = record ID, $2 = new IP
 updateRecord() {
-	local queryString="login_token=$LoginToken&format=json&domain=$Domain&record_id=$RecordId&record_type=A&record_line_id=0&sub_domain=$SubDomain&value=$NewIP"
+	local queryString="login_token=$LoginToken&format=json&domain=$Domain&record_id=$1&record_type=A&record_line_id=0&sub_domain=$SubDomain&value=$2"
 	local result=$(sendRequest "Record.Modify" $queryString)
-	local code=$(echo $Result | sed 's/.*:{"code":"\([0-9]*\)".*/\1/')
+	local code=$(echo $result | sed 's/.*:{"code":"\([0-9]*\)".*/\1/')
 
 	if [ "$code" = "1" ]; then
-		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
+		echo "$SubDomain.$Domain 已指向 $2." >&2
 	else
 		echo "更新失败." >&2
 		echo $result >&2
@@ -71,12 +71,12 @@ updateRecord() {
 
 # $1 = new IP
 addRecord() {
-	local queryString="login_token=$LoginToken&format=json&domain=$Domain&sub_domain=$SubDomain&record_type=A&record_line_id=0&value=$NewIP"
+	local queryString="login_token=$LoginToken&format=json&domain=$Domain&sub_domain=$SubDomain&record_type=A&record_line_id=0&value=$1"
 	local result=$(sendRequest "Record.Create" $queryString)
-	local code=$(echo $Result | sed 's/.*:{"code":"\([0-9]*\)".*/\1/')
+	local code=$(echo $result | sed 's/.*:{"code":"\([0-9]*\)".*/\1/')
 
 	if [ "$code" = "1" ]; then
-		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
+		echo "$SubDomain.$Domain 已指向 $1." >&2
 	else
 		echo "添加失败." >&2
 		echo $result >&2
