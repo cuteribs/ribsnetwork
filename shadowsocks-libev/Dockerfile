@@ -9,5 +9,8 @@ WORKDIR /ss
 
 ADD ./*.bz /ss/
 
-RUN apk update && apk add mbedtls pcre && rm -rf /var/cache/apk/*
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
+	apk update && \
+	apk add mbedtls pcre && \
+	rm -rf /var/cache/apk/*
 

@@ -7,7 +7,8 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 
 ADD ./privoxy.sh /app/
 
-RUN apk update && \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
+	apk update && \
 	apk add privoxy && \
 	chmod +x /app/privoxy.sh && \
 	rm -rf /etc/init.d/privoxy && \

@@ -74,10 +74,10 @@ getRecordId() {
 
 		if [ "$ip" = "$NewIP" ]; then
 			echo "IP 无变化, 退出脚本..." >&2
-			exit 1
+			echo "quit"
+		else
+			echo $recordId
 		fi
-
-		echo $recordId
 	else
 		echo "null"
 	fi
@@ -93,7 +93,6 @@ updateRecord() {
 	else
 		echo "更新失败." >&2
 		echo $result >&2
-		exit 1
 	fi
 }
 
@@ -107,7 +106,6 @@ addRecord() {
 	else
 		echo "添加失败." >&2
 		echo $result >&2
-		exit 1
 	fi
 }
 
@@ -120,10 +118,12 @@ echo "当前 IP 为 $NewIP."
 RecordId=$(getRecordId)
 echo $ResultId
 
-if [ "$RecordId" = "null" ]; then
-	echo "域名记录不存在, 添加 $SubDomain.$Domain 至 $NewIP..."
-	RecordId=$(addRecord $NewIP)
-else
-	echo "域名记录已存在, 更新 $SubDomain.$Domain 至 $NewIP..."
-	RecordId=$(updateRecord $RecordId $NewIP)
+if [ ! "$RecordId" = "quit" ]; then
+	if [ "$RecordId" = "null" ]; then
+		echo "域名记录不存在, 添加 $SubDomain.$Domain 至 $NewIP..."
+		RecordId=$(addRecord $NewIP)
+	else
+		echo "域名记录已存在, 更新 $SubDomain.$Domain 至 $NewIP..."
+		RecordId=$(updateRecord $RecordId $NewIP)
+	fi
 fi

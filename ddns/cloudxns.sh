@@ -52,7 +52,6 @@ updateDDNS() {
 	else
 		echo "更新出错." >&2
 		echo $result >&2
-		exit 1
 	fi
 }
 

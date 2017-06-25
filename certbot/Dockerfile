@@ -14,7 +14,8 @@ VOLUME /etc/letsencrypt
 COPY ./*.sh /certbot/
 COPY ./cli.ini /certbot/
 
-RUN apk update && \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
+	apk update && \
 	apk add certbot openssl ca-certificates wget && \
 	rm -rf /var/cache/apk/* && \
 	chmod +x /certbot/*.sh
