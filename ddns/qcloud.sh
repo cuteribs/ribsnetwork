@@ -27,6 +27,9 @@ if [ -z "$SubDomain" ]; then
 	SubDomain="@"
 fi
 
+Nonce=$(date +%N)
+Timestamp=$(date '+%s')
+
 urlencode() {
 	local raw="$1";
 	local len="${#raw}"
@@ -55,11 +58,9 @@ getSignature() {
 }
 
 sendRequest() {
-	local nonce=$RANDOM
-	local timestamp=$(date '+%s')
-	local query="Action=$1&Nonce=$nonce&Region=sh&SecretId=$ApiId&SignatureMethod=HmacSHA256&Timestamp=$timestamp&$2"
+	local query="Action=$1&Nonce=$Nonce&Region=sh&SecretId=$ApiId&SignatureMethod=HmacSHA256&Timestamp=$Timestamp&$2"
 	local sig=$(getSignature $query)
-	local result=$(wget -qO- --no-check-certificate "https://cns.api.qcloud.com/v2/index.php?$query&Signature=$sig")
+	local result=$(wget -qO- --no-check-certificate --content-on-error "https://cns.api.qcloud.com/v2/index.php?$query&Signature=$sig")
 	echo $result
 }
 
@@ -116,7 +117,6 @@ echo "当前 IP 为 $NewIP."
 
 # Get record ID of sub domain
 RecordId=$(getRecordId)
-echo $ResultId
 
 if [ ! "$RecordId" = "quit" ]; then
 	if [ "$RecordId" = "null" ]; then
