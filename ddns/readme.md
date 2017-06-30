@@ -1,8 +1,8 @@
 ## Docker 运行方式
 #### 环境变量
->Time: 计划运行时间, 默认为 "* 6 * * *".
+>Time: 计划运行时间, 格式为 "* 6 * * *".
 
->Script: 脚本选择, 默认为 "dnspod", 可选脚本有 "dnspod, qcloud, aliyun, cloudxns".
+>Script: 脚本选择, 选脚本有 "dnspod, qcloud, aliyun, cloudxns".
 
 >ApiId: API 密钥 ID, 如 "123456789".
 
