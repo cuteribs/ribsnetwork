@@ -9,6 +9,6 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
 
 # 设置默认时区为亚洲/上海 (没有北京可选)
-RUN	cp /usr/share/timezone/Asia/Shanghai /etc/localtime && \
+	cp /usr/share/timezone/Asia/Shanghai /etc/localtime && \
 	echo "Asia/Shanghai" > /etc/timezone
 
