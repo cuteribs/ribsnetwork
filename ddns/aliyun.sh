@@ -27,8 +27,9 @@ if [ -z "$SubDomain" ]; then
 	SubDomain="@"
 fi
 
-Nonce=$(date +%N)
+Nonce=$(date -u "+%N")	# 有bug?
 Timestamp=$(date -u "+%Y-%m-%dT%H%%3A%M%%3A%SZ")	# SB 阿里云, 什么鬼时间格式
+Nonce=$Timestamp
 
 urlencode() {
 	local raw="$1";

@@ -2,7 +2,7 @@
 # Dockerfile for ddns
 #
 
-FROM alpine:3.6
+FROM cuteribs/alpine
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 COPY ./*.sh /app/
@@ -16,11 +16,8 @@ WORKDIR /app/
 #ENV Domain="example.com"
 #ENV SubDomain="www"
 
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
 
-RUN	apk update && \
-	apk add wget ca-certificates openssl && \
-	rm -rf /var/cache/apk/* && \
+RUN	apk add --no-cache wget ca-certificates openssl && \
 	chmod +x /app/*.sh && \
 	touch /app/cron.log
 

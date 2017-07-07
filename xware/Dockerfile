@@ -2,7 +2,7 @@
 # Dockerfile for xware
 #
 
-FROM debian:wheezy-slim
+FROM cuteribs/debian
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 WORKDIR /xware
