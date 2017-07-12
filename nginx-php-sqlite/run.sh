@@ -9,11 +9,10 @@ if [ ! -d /data/www ] ; then
 fi
 
 # start php-fpm
-mkdir -p /data/logs/php-fpm
+mkdir -p /data/logs
 php-fpm
 
 # start nginx
-mkdir -p /data/logs/nginx
 mkdir -p /tmp/nginx
 chown nginx /tmp/nginx
 nginx
