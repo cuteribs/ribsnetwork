@@ -10,8 +10,7 @@ WORKDIR /xware
 COPY ./*.deb /xware/
 ADD ./xware.tar.bz /xware/
 
-RUN dpkg -i /xware/libc6-*.deb && \
-	dpkg -i /xware/lib32z1_*.deb && \
+RUN dpkg -i /xware/lib32z1_*.deb && \
 	chmod +x /xware/portal && \
 	rm /xware/*.deb
 
