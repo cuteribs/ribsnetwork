@@ -1,5 +1,5 @@
 #
-# Dockerfile for xware
+# Dockerfile for xware 1.0.16
 #
 
 FROM cuteribs/debian
@@ -7,11 +7,10 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 
 WORKDIR /xware
 
-COPY ./*.deb /xware/
 ADD ./xware.tar.bz /xware/
 
-RUN dpkg -i /xware/lib32z1_*.deb && \
-	chmod +x /xware/portal && \
-	rm /xware/*.deb
+RUN apt-get update && apt-get install lib32z1 -y && \
+	rm -rf /var/lib/apt/lists/* && \
+	chmod +x /xware/portal
 
 CMD /xware/portal > /xware/portal.log 2>&1 && tail -f /xware/portal.log
