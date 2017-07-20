@@ -7,7 +7,7 @@ MAINTAINER cuteribs <ericfine1981@live.com>
 
 WORKDIR /xware
 
-ADD ./xware_1.0.31.tar.bz /xware/
+ADD ./xware_1.0.16.tar.bz /xware/
 
 RUN apt-get update && apt-get install lib32z1 -y && \
 	rm -rf /var/lib/apt/lists/* && \
