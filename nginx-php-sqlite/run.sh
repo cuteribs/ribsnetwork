@@ -1,7 +1,5 @@
 #!/bin/sh
 
-[ -f /run-pre.sh ] && /run-pre.sh
-
 if [ ! -d /data/www ] ; then
   mkdir -p /data/www
   chown nginx:www-data /data/www
