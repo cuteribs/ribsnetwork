@@ -5,11 +5,17 @@
 FROM cuteribs/alpine
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-RUN apk add --no-cache aria2 && \
-	mkdir /download
+RUN apk add --no-cache aria2 lighttpd lighttpd-mod_auth && \
+	mkdir /data && mkdir /data/www && mkdir /data/crt && mkdir /data/download
 
-VOLUME "/download"
+COPY ./*.sh /
+COPY ./*.conf /data/conf/
+ADD ./*.bz /data/www/
 
+ENV Secret "cuteribs"
+EXPOSE 80
 EXPOSE 6800
+VOLUME "/data/crt"
+VOLUME "/data/download"
 
-CMD aria2c -d=/download --enable-rpc --rpc-listen-all --rpc-listen-port=6800 --rpc-secret=cuteribs
+CMD sh /run.sh
