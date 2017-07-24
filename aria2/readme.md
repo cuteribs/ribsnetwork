@@ -19,4 +19,5 @@ docker run -d \
     -v /data/crt:/data/crt \
     -e Secret=cuteribs \
     cuteribs/aria2
+    sh runssl.sh
 ```
