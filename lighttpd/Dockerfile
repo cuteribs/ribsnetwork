@@ -5,14 +5,16 @@
 FROM cuteribs/alpine
 MAINTAINER cuteribs <ericfine1981@live.com>
 
-RUN apk add --no-cache lighttpd lighttpd-mod_auth
+RUN apk add --no-cache lighttpd lighttpd-mod_auth && \
+	rm -rf /var/cache/apk/* && \
+	mkdir /data && mkdir /data/www && mkdir /data/crt && \
+	echo 'not 404 found' > /data/www/index.html
 
-ADD ./*.conf /lighttpd/
-
+ADD ./*.conf /etc/lighttpd/
 
 EXPOSE 80
 EXPOSE 443
-VOLUME ["/lighttpd"]
-VOLUME ["/www"]
+VOLUME "/etc/lighttpd"
+VOLUME "/data"
 
-CMD ["lighttpd", "-D", "-f", "/lighttpd/lighttpd.conf"]
+CMD ["lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
