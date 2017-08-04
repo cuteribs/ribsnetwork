@@ -9,6 +9,5 @@ WORKDIR /ss
 
 ADD ./*.bz /ss/
 
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
-RUN	apk add --no-cache --virtual mbedtls pcre && \
+RUN	apk add --no-cache libev libsodium mbedtls pcre udns && \
 	rm -rf /var/cache/apk/*
