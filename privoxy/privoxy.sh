@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 PRIVOXY_CONF="/app/privoxy.conf"
 
@@ -8,4 +8,4 @@ if [ ! -f "$PRIVOXY_CONF" ]; then
 	echo forward-socks5 / forward-server:$SOCKS5 . >> $PRIVOXY_CONF
 fi
 
-/app/privoxy --no-daemon $PRIVOXY_CONF
+privoxy --no-daemon $PRIVOXY_CONF
