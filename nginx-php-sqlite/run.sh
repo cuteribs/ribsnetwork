@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -d /data/www ] ; then
+if [ ! -d /data/www ]; then
 	mkdir -p /data/www
 	chown nginx:www-data /data/www
 	chmod -R 777 /data/www
@@ -14,14 +14,14 @@ if [ -f /data/crt/site.crt ]; then
 fi
 
 # start php-fpm
-if [ ! -d /data/log ] ; then
+if [ ! -d /data/log ]; then
 	mkdir -p /data/log
 fi
 
 php-fpm5
 
 # start nginx
-if [ ! -d /tmp/nginx ] ; then
+if [ ! -d /tmp/nginx ]; then
 	mkdir -p /tmp/nginx
 	chown nginx /tmp/nginx
 fi
