@@ -10,12 +10,16 @@ RUN apk add --no-cache nginx sqlite php5-fpm php5-pdo_sqlite php5-ctype php5-ico
 
 ADD ./nginx.conf /etc/nginx/
 ADD ./php-fpm.conf /etc/php5/
-ADD ./run.sh /
-RUN chmod +x /run.sh
 
+ADD ./nginx.conf /app/
+ADD ./nginx.ssl.conf /app/
+ADD ./php-fpm.conf /app/
+ADD ./php-fpm.ssl.conf /app/
+ADD ./run.sh /app/
+RUN chmod +x /app/run.sh
 
 EXPOSE 80
 EXPOSE 443
 VOLUME ["/data"]
 
-CMD ["/run.sh"]
+CMD ["/app/run.sh"]
