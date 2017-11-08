@@ -8,7 +8,7 @@ fi
 
 if [ -f /data/crt/site.crt ]; then
 	if [ ! -f /etc/ssl_flag ]; then
-		cp /app/nginx.ssl.conf /etc/nginx/
+		cp /app/nginx.ssl.conf /etc/nginx/nginx.conf
 		touch /etc/ssl_flag
 	fi	
 fi
