@@ -12,4 +12,6 @@ ADD config.json /root/.homebridge/config.json
 WORKDIR /root/.homebridge
 VOLUME /root/.homebridge
 
+EXPOSE 8080
+
 CMD homebridge
