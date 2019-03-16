@@ -10,5 +10,8 @@ RUN apk add --no-cache avahi-compat-libdns_sd python2 g++ make && \
 	touch /var/log/homebridge.log
 
 WORKDIR /root/.homebridge
+ADD ./config.json /root/.homebridge/
 
-CMD homebridge
+ENV Command="homebridge -I"
+
+CMD $Command
