@@ -2,7 +2,7 @@
 # Dockerfile for alpine
 #
 
-FROM alpine:3.9
+FROM alpine:latest
 LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 # apk 源切到阿里, 国内访问加速

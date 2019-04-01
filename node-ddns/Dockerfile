@@ -2,7 +2,7 @@
 # Dockerfile for ddns
 #
 
-FROM cuteribs/nodejs:latest
+FROM cuteribs/nodejs
 MAINTAINER cuteribs <ericfine1981@live.com>
 
 WORKDIR /js

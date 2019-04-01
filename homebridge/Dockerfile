@@ -2,7 +2,7 @@
 # Dockerfile for homebridge
 #
 
-FROM cuteribs/nodejs:latest
+FROM cuteribs/nodejs
 LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 RUN apk add --no-cache avahi-compat-libdns_sd python2 g++ make && \

@@ -2,7 +2,7 @@
 # Dockerfile for nodejs
 #
 
-FROM cuteribs/alpine:latest
+FROM cuteribs/alpine
 LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 RUN apk add --no-cache nodejs nodejs-npm && \
