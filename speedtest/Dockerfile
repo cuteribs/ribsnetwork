@@ -8,7 +8,7 @@ LABEL maintainer="cuteribs <ericfine1981@live.com>"
 RUN apk add --no-cache nginx php7-fpm php7-openssl && \
 	rm -rf /var/cache/apk/*
 
-ADD speedtest.tar.bz /www/
+ADD https://github.com/adolfintel/speedtest/archive/4.7.1.tar.gz /www/
 ADD ./nginx.conf /etc/nginx/
 ADD ./run.sh /
 RUN chmod +x /run.sh
