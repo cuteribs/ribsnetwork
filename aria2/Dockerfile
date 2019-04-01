@@ -3,7 +3,7 @@
 #
 
 FROM cuteribs/alpine
-MAINTAINER cuteribs <ericfine1981@live.com>
+LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 RUN apk add --no-cache aria2 lighttpd lighttpd-mod_auth && \
 	mkdir /data && mkdir /data/www && mkdir /data/crt && mkdir /data/download

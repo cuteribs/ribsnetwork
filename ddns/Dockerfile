@@ -3,7 +3,7 @@
 #
 
 FROM cuteribs/alpine
-MAINTAINER cuteribs <ericfine1981@live.com>
+LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 COPY ./*.sh /app/
 

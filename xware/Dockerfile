@@ -3,7 +3,7 @@
 #
 
 FROM cuteribs/debian
-MAINTAINER cuteribs <ericfine1981@live.com>
+LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 WORKDIR /xware
 

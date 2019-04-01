@@ -3,7 +3,7 @@
 #
 
 FROM cuteribs/alpine
-MAINTAINER cuteribs <ericfine1981@live.com>
+LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 #ENV LoginToken=13490,6b5976c68aba5b14a0558b77c17c3932
 #ENV Email=admin@example.com

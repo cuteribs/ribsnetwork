@@ -3,7 +3,7 @@
 #
 
 FROM cuteribs/alpine
-MAINTAINER cuteribs <ericfine1981@live.com>
+LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 RUN apk add --no-cache nginx php7-fpm php7-openssl && \
 	rm -rf /var/cache/apk/*
