@@ -7,7 +7,8 @@ LABEL maintainer="cuteribs <ericfine1981@live.com>"
 
 RUN apk add --no-cache python2 g++ make dbus nodejs avahi avahi-compat-libdns_sd avahi-dev && \
 	npm install -g --unsafe-perm homebridge homebridge-config-ui-x && \
-	apk remove python2 g++ make && \
+	apk del python2 g++ make && \
+	rm -rf /var/cache/apk/* && \
 	touch /var/log/homebridge.log
 
 WORKDIR /root/.homebridge
