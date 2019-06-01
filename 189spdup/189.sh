@@ -1,34 +1,5 @@
 #!/usr/sh
 
-CONNECTION_TIME="15"
-TRANSMISSION_TIME="15"
-
-formatHeaderString() {
-    OLD_IFS=$IFS
-    IFS="$1"
-    STR="$2"
-    ARRAY=(${STR})
-    for i in "${!ARRAY[@]}"
-    do
-        HEADERS="$HEADERS -H '${ARRAY[$i]}'"
-    done
-    echo ${HEADERS} | sed 's/^ //'
-    IFS=${OLD_IFS}
-}
-
-get() {
-    HEADER="$1"
-    URL="$2"
-    eval curl -s --connect-timeout "${CONNECTION_TIME}"  -m "${TRANSMISSION_TIME}" "${HEADER}" "${URL}"
-}
-
-post() {
-    HEADER="$1"
-    URL="$2"
-    PAYLOAD="$3"
-    eval curl -s --connect-timeout "${CONNECTION_TIME}" -m "${TRANSMISSION_TIME}" -X POST "${URL}" "${HEADER}" -w %{http_code} -d "'$PAYLOAD'"
-}
-
 hashHmac() {
     digest="$1"
     data="$2"
@@ -37,9 +8,6 @@ hashHmac() {
 }
 
 accessToken="$1"
-method="GET"
-#rate=600
-extra_header="User-Agent:Apache-HttpClient/UNAVAILABLE (java 1.4)"
 
 HOST="http://api.cloud.189.cn"
 LOGIN_URL="/loginByOpen189AccessToken.action"
@@ -47,10 +15,7 @@ ACCESS_URL="/speed/startSpeedV2.action"
 
 echo "*******************************************"
 echo "发起提速请求..."
-split="~"
-headers_string="$extra_header"
-headers=`formatHeaderString "$split" "$headers_string"`
-result=`get "$HOST$LOGIN_URL?accessToken=$accessToken" "$headers"`
+result=`curl -s --connect-timeout 15 -m 15 "$HOST$LOGIN_URL?accessToken=$accessToken"`
 session_key=`echo "$result" | grep -Eo "sessionKey>.*</sessionKey" | sed 's/<\/sessionKey//' | sed 's/sessionKey>//'`
 session_secret=`echo "$result" | grep -Eo "sessionSecret>.*</sessionSecret" | sed 's/sessionSecret>//' | sed 's/<\/sessionSecret//'`
 
@@ -59,15 +24,11 @@ then
     echo "登录失败"
 else
     date=`env LANG=C.UTF-8 date -u '+%a, %d %b %Y %T GMT'`
-    data="SessionKey=$session_key&Operate=$method&RequestURI=$ACCESS_URL&Date=$date"
-    key="$session_secret"
-    signature=`hashHmac "sha1" "$data" "$key"`
-    headers_string="SessionKey:$session_key"${split}"Signature:$signature"${split}"Date:$date"${split}"$extra_header"
-    headers=`formatHeaderString "$split" "$headers_string"`
-    qosClientSn="2cceaa8d-5721-4782-9637-faff03135779"
-    # qosClientSn=`cat /proc/sys/kernel/random/uuid`
-    result=`get "$HOST$ACCESS_URL?qosClientSn=$qosClientSn" "$headers"`
-
+    data="SessionKey=$session_key&Operate=GET&RequestURI=$ACCESS_URL&Date=$date"
+    signature=`echo -n "$data" | openssl dgst -sha1 -hmac $session_secret | sed -e 's/^.* //' | tr 'a-z' 'A-Z'`
+    qosClientSn=`cat /proc/sys/kernel/random/uuid`
+    result=`curl -s --connect-timeout 15 -m 15 "$HOST$ACCESS_URL?qosClientSn=$qosClientSn" -H "SessionKey:$session_key" -H "Signature:$signature" -H "Date:$date"`
+    
     dialAccount=`echo $result | grep -Eo "<dialAccount>.*</dialAccount>" | sed 's/<dialAccount>sh:://' | sed 's/<\/dialAccount>//'`
     baseDownRate=`echo $result | grep -Eo "<baseDownRate>.*</baseDownRate>" | sed 's/<baseDownRate>//' | sed 's/<\/baseDownRate>//'`
     baseUpRate=`echo $result | grep -Eo "<baseUpRate>.*</baseUpRate>" | sed 's/<baseUpRate>//' | sed 's/<\/baseUpRate>//'`
