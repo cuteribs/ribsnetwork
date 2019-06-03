@@ -1,12 +1,5 @@
 #!/usr/sh
 
-hashHmac() {
-    digest="$1"
-    data="$2"
-    key="$3"
-    echo -n "$data" | openssl dgst "-$digest" -hmac "$key" | sed -e 's/^.* //' | tr 'a-z' 'A-Z'
-}
-
 accessToken="$1"
 
 HOST="http://api.cloud.189.cn"
@@ -39,7 +32,8 @@ fi
 if [ -z "$dialAccount" ]
 then
     echo "提速失败"
-else    
+else
+    logger "提速成功 $((targetDownRate/1024))M/$((targetUpRate/1024))M"
     echo "提速成功"
     echo "宽带账号: $dialAccount"
     echo "套餐带宽: 下行 $((baseDownRate/1024)) Mbps / 上行 $((baseUpRate/1024)) Mbps"
