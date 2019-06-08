@@ -19,7 +19,7 @@ else
     date=`env LANG=C.UTF-8 date -u '+%a, %d %b %Y %T GMT'`
     data="SessionKey=$session_key&Operate=GET&RequestURI=$ACCESS_URL&Date=$date"
     signature=`echo -n "$data" | openssl dgst -sha1 -hmac $session_secret | sed -e 's/^.* //' | tr 'a-z' 'A-Z'`
-    qosClientSn=`cat /proc/sys/kernel/random/uuid`
+    qosClientSn=$signature
     result=`curl -s --connect-timeout 15 -m 15 "$HOST$ACCESS_URL?qosClientSn=$qosClientSn" -H "SessionKey:$session_key" -H "Signature:$signature" -H "Date:$date"`
     
     dialAccount=`echo $result | grep -Eo "<dialAccount>.*</dialAccount>" | sed 's/<dialAccount>sh:://' | sed 's/<\/dialAccount>//'`
