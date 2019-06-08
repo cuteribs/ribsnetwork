@@ -22,7 +22,7 @@ else
     qosClientSn=$signature
     result=`curl -s --connect-timeout 15 -m 15 "$HOST$ACCESS_URL?qosClientSn=$qosClientSn" -H "SessionKey:$session_key" -H "Signature:$signature" -H "Date:$date"`
     
-    dialAccount=`echo $result | grep -Eo "<dialAccount>.*</dialAccount>" | sed 's/<dialAccount>sh:://' | sed 's/<\/dialAccount>//'`
+    dialAccount=`echo $result | grep -Eo "<dialAccount>.*</dialAccount>" | sed 's/<dialAccount>//' | sed 's/<\/dialAccount>//'`
     baseDownRate=`echo $result | grep -Eo "<baseDownRate>.*</baseDownRate>" | sed 's/<baseDownRate>//' | sed 's/<\/baseDownRate>//'`
     baseUpRate=`echo $result | grep -Eo "<baseUpRate>.*</baseUpRate>" | sed 's/<baseUpRate>//' | sed 's/<\/baseUpRate>//'`
     targetDownRate=`echo $result | grep -Eo "<targetDownRate>.*</targetDownRate>" | sed 's/<targetDownRate>//' | sed 's/<\/targetDownRate>//'`
