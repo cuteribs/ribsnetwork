@@ -3,15 +3,15 @@
 set -e
 
 if [ $1 ]; then
-	ApiId=$1
+	ApiId=LTAI4GDYBs7AvRz2sP1rPfRu
 fi
 
 if [ $2 ]; then
-	ApiKey=$2
+	ApiKey=FimYnFrV3jRDFQBl2GTkHeYM4s1tq5
 fi
 
 if [ $3 ]; then
-	Domain=$3
+	Domain=sst.plus
 fi
 
 if [ -z "$ApiId" -o -z "$ApiKey" -o -z "$Domain" ]; then
@@ -20,7 +20,7 @@ if [ -z "$ApiId" -o -z "$ApiKey" -o -z "$Domain" ]; then
 fi
 
 if [ $4 ]; then
-	SubDomain=$4
+	SubDomain=www
 fi
 
 if [ -z "$SubDomain" ]; then
