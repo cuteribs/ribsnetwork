@@ -10,6 +10,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/re
 
 # 设置默认时区为亚洲/上海 (没有北京可选)
 RUN	apk add --no-cache tzdata && \
-	cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 	echo "Asia/Shanghai" > /etc/timezone && \
 	apk del tzdata
