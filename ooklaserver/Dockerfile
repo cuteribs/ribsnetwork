@@ -17,4 +17,4 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
 EXPOSE 5060 8080 5060/udp 8080/udp
 CMD ["/ookla/OoklaServer"]
 
-# docker run --name ooklaserver -p 5060:5060 -p 8080:8080 -p 5060:5060/udp -p 8080:8080/udp cuteribs/ooklaserver
+# docker run -d --name ooklaserver -p 5060:5060 -p 8080:8080 -p 5060:5060/udp -p 8080:8080/udp cuteribs/ooklaserver
