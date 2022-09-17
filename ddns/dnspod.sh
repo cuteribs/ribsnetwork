@@ -24,7 +24,7 @@ if [ $4 ]; then
 fi
 
 if [ -z "$SubDomain" ]; then
-	SubDomain="@"
+	SubDomain="%40"
 fi
 
 LoginToken="$ApiId,$ApiKey"
