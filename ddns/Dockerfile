@@ -17,7 +17,7 @@ WORKDIR /app/
 #ENV SubDomain="www"
 
 
-RUN	apk add --no-cache wget ca-certificates openssl && \
+RUN	apk add --no-cache wget ca-certificates openssl jq && \
 	chmod +x /app/*.sh && \
 	touch /app/cron.log
 
