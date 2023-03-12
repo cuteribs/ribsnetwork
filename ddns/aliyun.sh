@@ -104,6 +104,7 @@ updateRecord() {
 addRecord() {
 	local queryString="AccessKeyId=$ApiId&Action=AddDomainRecord&DomainName=$Domain&Format=JSON&RR=$SubDomain&SignatureMethod=HMAC-SHA1&SignatureNonce=$Nonce&SignatureVersion=1.0&Timestamp=$Timestamp&Type=A&Value=$1&Version=2015-01-09"
 	local result=$(sendRequest $queryString)
+	echo $result  >&2
 	local code=$(echo $result | sed 's/.*,"Code":"\([A-z]*\)",.*/\1/')
 
 	if [ "$code" = "$result" ]; then
