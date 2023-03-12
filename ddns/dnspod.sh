@@ -24,7 +24,7 @@ if [ $4 ]; then
 fi
 
 if [ -z "$SubDomain" ]; then
-	SubDomain="@"
+	SubDomain="%40"
 fi
 
 LoginToken="$ApiId,$ApiKey"
@@ -38,16 +38,16 @@ getRecordId() {
 	echo "获取 $SubDomain.$Domain 的 IP..." >&2
 	local queryString="login_token=$LoginToken&format=json&domain=$Domain&sub_domain=$SubDomain"
 	local result=$(sendRequest "Record.List" "$queryString")
-	local code=$(echo $result | sed 's/.*:{"code":"\([0-9]*\)".*/\1/')
+	local code=$(echo $result | jq -r '.status.code')
 
 	if [ "$code" = "1" ]; then
-		ip=$(echo $result | sed 's/.*\,"value":"\([0-9\.]*\)".*/\1/')
+		local ip=$(echo $result | jq -r '.records[0].value')
 
 		if [ "$ip" = "$NewIP" ]; then
 			echo "IP 无变化, 退出脚本..." >&2
 			echo "quit"
 		else
-			local recordId=$(echo $result | sed 's/.*\[{"id":"\([0-9]*\)".*/\1/')
+			local recordId=$(echo $result | jq -r '.records[0].id')
 			echo $recordId
 		fi
 	else
@@ -59,7 +59,7 @@ getRecordId() {
 updateRecord() {
 	local queryString="login_token=$LoginToken&format=json&domain=$Domain&record_id=$1&record_type=A&record_line_id=0&sub_domain=$SubDomain&value=$2"
 	local result=$(sendRequest "Record.Modify" $queryString)
-	local code=$(echo $result | sed 's/.*:{"code":"\([0-9]*\)".*/\1/')
+	local code=$(echo $result | jq -r '.status.code')
 
 	if [ "$code" = "1" ]; then
 		echo "$SubDomain.$Domain 已指向 $2." >&2
@@ -73,7 +73,7 @@ updateRecord() {
 addRecord() {
 	local queryString="login_token=$LoginToken&format=json&domain=$Domain&sub_domain=$SubDomain&record_type=A&record_line_id=0&value=$1"
 	local result=$(sendRequest "Record.Create" $queryString)
-	local code=$(echo $result | sed 's/.*:{"code":"\([0-9]*\)".*/\1/')
+	local code=$(echo $result | jq -r '.status.code')
 
 	if [ "$code" = "1" ]; then
 		echo "$SubDomain.$Domain 已指向 $1." >&2

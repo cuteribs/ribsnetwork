@@ -8,20 +8,15 @@
 
 >ApiKey: API 密钥, 如 "f7c3bc1d808e04732adf679965ccc34ca7ae3441".
 
->Domain: 顶级域名, 如 "example.com"
+>Domain: 顶级域名, 如 "example.com". 中文域名需要 URLEncode 转换后使用
 
->SubDomain: 子域名, 如 "www"
+>SubDomain: 子域名, 如 "www". 中文域名或 @ 需要 URLEncode 转换后使用
 
 
 ## 直接脚本运行方式
 #### dnspod (添加 / 更新) *推荐*
 ```
 sh dnspod.sh {ApiID},{ApiKey} example.com www
-```
----
-#### qcloud (添加 / 更新)
-```
-sh qcloud.sh {SecretId} {SecretKey} example.com www
 ```
 ---
 #### aliyun (添加 / 更新)

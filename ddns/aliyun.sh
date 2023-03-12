@@ -24,7 +24,7 @@ if [ $4 ]; then
 fi
 
 if [ -z "$SubDomain" ]; then
-	SubDomain="@"
+	SubDomain="%40"
 fi
 
 Nonce=$(date -u "+%N")	# 有bug?
@@ -66,14 +66,21 @@ sendRequest() {
 }
 
 getRecordId() {
-	echo "获取 $SubDomain.$Domain 的 IP..." >&2
-	local queryString="AccessKeyId=$ApiId&Action=DescribeSubDomainRecords&Format=JSON&SignatureMethod=HMAC-SHA1&SignatureNonce=$Nonce&SignatureVersion=1.0&SubDomain=$SubDomain.$Domain&Timestamp=$Timestamp&Type=A&Version=2015-01-09"
+	local domain="$Domain"
+	
+	if [ ! "$SubDomain" = "%40" ]; then
+		domain="$SubDomain.$Domain"
+	fi
+	
+	echo "获取 $domain 的 IP..." >&2
+	local queryString="AccessKeyId=$ApiId&Action=DescribeSubDomainRecords&Format=JSON&SignatureMethod=HMAC-SHA1&SignatureNonce=$Nonce&SignatureVersion=1.0&SubDomain=$domain&Timestamp=$Timestamp&Type=A&Version=2015-01-09"
 	local result=$(sendRequest "$queryString")
-	local code=$(echo $result | sed 's/.*,"Code":"\([A-z]*\)",.*/\1/')
-	local recordId=$(echo $result | sed 's/.*,"RecordId":"\([0-9]*\)",.*/\1/')
+	local recordId=$(echo $result | jq -r '.DomainRecords[] | .[0].RecordId')
 
-	if [ "$code" = "$result" ] && [ ! "$recordId" = "$result" ]; then
-		local ip=$(echo $result | sed 's/.*,"Value":"\([0-9\.]*\)",.*/\1/')
+	if [ "$recordId" = "null" ]; then
+		echo "null"
+	else
+		local ip=$(echo $result | jq -r '.DomainRecords[] | .[0].Value')
 
 		if [ "$ip" == "$NewIP" ]; then
 			echo "IP 无变化, 退出脚本..." >&2
@@ -81,8 +88,6 @@ getRecordId() {
 		else
 			echo $recordId
 		fi
-	else
-		echo "null"
 	fi
 }
 
@@ -90,13 +95,14 @@ getRecordId() {
 updateRecord() {
 	local queryString="AccessKeyId=$ApiId&Action=UpdateDomainRecord&DomainName=$Domain&Format=JSON&RR=$SubDomain&RecordId=$1&SignatureMethod=HMAC-SHA1&SignatureNonce=$Nonce&SignatureVersion=1.0&Timestamp=$Timestamp&Type=A&Value=$2&Version=2015-01-09"
 	local result=$(sendRequest $queryString)
-	local code=$(echo $result | sed 's/.*,"Code":"\([A-z]*\)",.*/\1/')
-
-	if [ "$code" = "$result" ]; then
-		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
+	local recordId=$(echo $result | jq -r '.RecordId')
+	
+	if [ "$recordId" = "null" ]; then
+		local code=$(echo $result | jq -r '.Code')
+		local message=$(echo $result | jq -r '.Message')
+		echo "更新失败: $code, $message" >&2
 	else
-		echo "更新失败." >&2
-		echo $result >&2
+		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
 	fi
 }
 
@@ -104,14 +110,14 @@ updateRecord() {
 addRecord() {
 	local queryString="AccessKeyId=$ApiId&Action=AddDomainRecord&DomainName=$Domain&Format=JSON&RR=$SubDomain&SignatureMethod=HMAC-SHA1&SignatureNonce=$Nonce&SignatureVersion=1.0&Timestamp=$Timestamp&Type=A&Value=$1&Version=2015-01-09"
 	local result=$(sendRequest $queryString)
-	echo $result  >&2
-	local code=$(echo $result | sed 's/.*,"Code":"\([A-z]*\)",.*/\1/')
-
-	if [ "$code" = "$result" ]; then
-		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
+	local recordId=$(echo $result | jq -r '.RecordId')
+	
+	if [ "$recordId" = "null" ]; then
+		local code=$(echo $result | jq -r '.Code')
+		local message=$(echo $result | jq -r '.Message')
+		echo "添加失败: $code, $message" >&2
 	else
-		echo "添加失败." >&2
-		echo $result >&2
+		echo "$SubDomain.$Domain 已指向 $NewIP." >&2
 	fi
 }
 
