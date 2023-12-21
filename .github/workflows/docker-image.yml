@@ -1,19 +1,26 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
   workflow_dispatch:
+    inputs:
+      path:
+        description: 'Path to Dockerfile'
+        required: true
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
+    if: ${{ inputs.path != '' }}
     steps:
     - uses: actions/checkout@v3
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: |
+        docker build ${{ inputs.path }} -t cuteribs/${{ inputs.path }}:latest
+        docker push cuteribs/${{ inputs.path }}:latest
