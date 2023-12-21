@@ -1,7 +1,6 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
 
-RUN apk add --no-cache icu-libs
-RUN apk add --no-cache icu-data-full
+RUN apk add --no-cache icu-libs icu-data-full
 
 ENV ASPNETCORE_ENVIRONMENT=Development
 	

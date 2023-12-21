@@ -6,9 +6,12 @@ SpeedTest by OpenSpeedTest™ is a Free and Open-Source HTML5 Network Performanc
   
 
 [![Download OpenSpeedTest-Server V2.1](https://github.com/openspeedtest/v2-Test/raw/main/images/10G-S.gif)](https://go.openspeedtest.com/Server  "Download OpenSpeedTest-Server V2.1")
- <a target="_blank"  href="https://go.openspeedtest.com/MicrosoftStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Microsoft-Store-250x100.png"  alt="Download from the Microsoft Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/MacAppStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Mac-App-Store-250x100.png"  alt="Download from the Mac App Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/iOS"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/App-Store-250x100.png"  alt="Download from the App Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/Android"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GooglePlay-250x100.png"  alt="Download from the Google Play Store" width="200"  height="80"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/snapcraft"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/SnapStore-250x100.png"  alt="Download from the Snap Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/docker"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/docker-250x100.png"  alt="Download from the Docker Hub"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/helm"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Helm-Charts-250x100.png"  alt="Download from the Helm Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/Source"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GitHub-250x100.png"  alt="Download from GitHub"  width="200"  height="80"  style=""></a>
+ <a target="_blank"  href="https://go.openspeedtest.com/MicrosoftStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Microsoft-Store-250x100.png"  alt="Download from the Microsoft Store"  width="24%" style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/MacAppStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Mac-App-Store-250x100.png"  alt="Download from the Mac App Store"  width="24%"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/iOS"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/App-Store-250x100.png"  alt="Download from the App Store"  width="24%" style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/Android"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GooglePlay-250x100.png"  alt="Download from the Google Play Store" width="24%"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/snapcraft"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/SnapStore-250x100.png"  alt="Download from the Snap Store"  width="24%"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/docker"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/docker-250x100.png"  alt="Download from the Docker Hub"  width="24%" style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/helm"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Helm-Charts-250x100.png"  alt="Download from the Helm Store"  width="24%" style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/Source"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GitHub-250x100.png"  alt="Download from GitHub"  width="24%" style=""></a>
 
 **No client-side software or plugin is required. You can run a network speed test from any device with a [Web Browser that is IE10 or new.](https://www.youtube.com/watch?v=9f-OM_WQ7Bw&list=PLt-deStxFJOMEAs2O1lJhscMNzcg9E3Po&index=1)**
+
+ <a target="_blank"  href="https://www.youtube.com/embed/Lq9dpMCM6kQ?autoplay=1"><img src="https://open.cachefly.net/assets/images/videos/Roberto-Jorge-Tech-yt.jpg"  alt="Video Tutorial by Roberto Jorge Tech"  width="48%" style=""></a> 
+ <a target="_blank"  href="https://www.youtube.com/embed/9NIHAmVkomk?autoplay=1"><img src="https://open.cachefly.net/assets/images/videos/lanpad-yt.jpg"  alt="Video Tutorial by LanPad"  width="48%" style=""></a> 
 
 ##  Why OpenSpeedTest
 
@@ -67,7 +70,8 @@ OpenSpeedTest User interface is written in SVG.
 - Improve `Time to First Byte` (TTFB)
 
 - Warning! If you run it behind a **[Reverse Proxy](https://github.com/openspeedtest/Speed-Test/issues/4#issuecomment-1229157193)**, you should increase the `post-body content length` to 35 megabytes.
-- Supports `HTTP2` & `HTTP3`. Wait for POST-BODY and Discard the DATA for UPLOAD. 
+- Supports `HTTP2` & `HTTP3`.
+- `HTTP1.1` is recommended for achieving maximum performance.
 - **[You Should Follow our Nginx Config.](https://github.com/openspeedtest/Nginx-Configuration)**
 
   
@@ -77,7 +81,7 @@ OpenSpeedTest User interface is written in SVG.
 OpenSpeedTest-Server is available for  Windows, Mac, Linux, Android, iOS & Docker. 
 [![Download OpenSpeedTest-Server V2.1](https://open.cachefly.net/assets/images/OSTV2-SS.png)](https://go.openspeedtest.com/Server  "Download OpenSpeedTest-Server V2.1")
 #### Fully Optimized and ready to use applications. 
- <a target="_blank"  href="https://go.openspeedtest.com/MicrosoftStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Microsoft-Store-250x100.png"  alt="Download from the Microsoft Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/MacAppStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Mac-App-Store-250x100.png"  alt="Download from the Mac App Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/iOS"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/App-Store-250x100.png"  alt="Download from the App Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/Android"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GooglePlay-250x100.png"  alt="Download from the Google Play Store" width="200"  height="80"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/snapcraft"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/SnapStore-250x100.png"  alt="Download from the Snap Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/docker"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/docker-250x100.png"  alt="Download from the Docker Hub"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/helm"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Helm-Charts-250x100.png"  alt="Download from the Helm Store"  width="200"  height="80"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/Source"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GitHub-250x100.png"  alt="Download from GitHub"  width="200"  height="80"  style=""></a>
+ <a target="_blank"  href="https://go.openspeedtest.com/MicrosoftStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Microsoft-Store-250x100.png"  alt="Download from the Microsoft Store"  width="24%" style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/MacAppStore"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Mac-App-Store-250x100.png"  alt="Download from the Mac App Store"  width="24%"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/iOS"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/App-Store-250x100.png"  alt="Download from the App Store"  width="24%" style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/Android"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GooglePlay-250x100.png"  alt="Download from the Google Play Store" width="24%"  style=""></a> <a target="_blank"  href="https://go.openspeedtest.com/snapcraft"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/SnapStore-250x100.png"  alt="Download from the Snap Store"  width="24%"  style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/docker"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/docker-250x100.png"  alt="Download from the Docker Hub"  width="24%" style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/helm"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/Helm-Charts-250x100.png"  alt="Download from the Helm Store"  width="24%" style=""></a> <a target="_blank"  href="http://go.openspeedtest.com/Source"><img src="https://github.com/openspeedtest/v2-Test/raw/main/images/GitHub-250x100.png"  alt="Download from GitHub"  width="24%" style=""></a>
   
 
 ###  New features:
@@ -332,10 +336,51 @@ If you need to run this image on a different port for `HTTP`, Eg: change to `80`
 #### Container-Port for https is 3001
 If you need to run this image on a different port for `HTTPS`, Eg: change to `443` =  `-p 443:3001`
 
-###  How to use your own SSL Certificate?
+### Setup Free LetsEncrypt SSL with Automatic Certificate Renewal
+***Requirements***
+- PUBLIC IPV4 and/or IPV6 address.
+- A domain name that resolves to speed test server's IP address.
+- Email ID
 
-You can mount a folder with your own SSL certificate to this docker container by adding the following line to the above command.
+The following command will generate a Let's Encrypt certificate for your domain name and configure a cron job to automatically renew the certificate.
 
+````
+docker run -e ENABLE_LETSENCRYPT=True -e DOMAIN_NAME=speedtest.yourdomain.com -e USER_EMAIL=you@yourdomain.pro --restart=unless-stopped --name openspeedtest -d -p 80:3000 -p 443:3001 openspeedtest/latest
+````
+#### Or use docker-compose.yml 
+````
+version: '3.3'
+services:
+    speedtest:
+        environment:
+            - ENABLE_LETSENCRYPT=True
+            - DOMAIN_NAME=speedtest.yourdomain.com
+            - USER_EMAIL=you@yourdomain.pro
+        restart: unless-stopped
+        container_name: openspeedtest
+        ports:
+            - '80:3000'
+            - '443:3001'
+        image: openspeedtest/latest
+````
+
+###  How to Use Your Own Secure Sockets Layer (SSL) Certificate, Self-Signed or Paid?
+***Requirements***
+- Folder with your Certificate, Self-Signed or Paid.
+- Rename .cet file and .key file to `nginx.crt` & `nginx.key`
+
+  The folder needs to contain:
+
+- `nginx.crt`
+
+- `nginx.key`
+
+
+````
+sudo docker run --restart=unless-stopped --name openspeedtest -d -p 3000:3000 -p 3001:3001 openspeedtest/latest
+````
+
+To mount a folder with your own SSL certificate to this Docker container, append the following line to the above command:
   
 
 ````bash
@@ -343,15 +388,7 @@ You can mount a folder with your own SSL certificate to this docker container by
 -v /${PATH-TO-YOUR-OWN-SSL-CERTIFICATE}:/etc/ssl/
 
 ````
-
-The folder needs to contain:
-
-- `nginx.crt`
-
-- `nginx.key`
-
   
-
 I am adding a folder with nginx.crt and nginx.key from my desktop by using the following command.
 
 ````bash
@@ -359,6 +396,44 @@ I am adding a folder with nginx.crt and nginx.key from my desktop by using the f
 sudo docker run -v /Users/vishnu/Desktop/docker/:/etc/ssl/ --restart=unless-stopped --name openspeedtest -d -p 3000:3000 -p 3001:3001 openspeedtest/latest
 
 ````
+#### Or use docker-compose.yml 
+````
+version: '3.3'
+services:
+    speedtest:
+        volumes:
+            - '/Users/vishnu/Desktop/docker/:/etc/ssl/'
+        restart: unless-stopped
+        container_name: openspeedtest
+        ports:
+            - '3000:3000'
+            - '3001:3001'
+        image: openspeedtest/latest
+````
+## Advanced Configuration Options 
+
+- Container Port Configuration
+  
+To enable port changes, set the `CHANGE_CONTAINER_PORTS` environment variable to `"True"` and provide appropriate values for the following variables.
+
+`CHANGE_CONTAINER_PORTS=True`
+
+`HTTP_PORT=3000`
+
+`HTTPS_PORT=3001`
+
+- Set User
+  
+`SET_USER=101`
+
+- Only Allow `CORS Request` from listed domains. 
+
+`ALLOW_ONLY=domain1.com;domain2.com;domain3.com`
+
+- `SET_SERVER_NAME` Display the server name on the UI.
+  
+`SET_SERVER_NAME=HOME-NAS` 
+
 
 Docker images run better on Linux Platforms, including your NAS. But if you install docker on macOS or Windows, you may see poor performance. I asked this on Docker forums, and they told me macOS and Windows support is for Development purposes only. For Production, you need to use any Linux Platform.
 
